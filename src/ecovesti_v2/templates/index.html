@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoVesti</title>
+    <link href={{ url_for('static', path='/styles.css' ) }} rel="stylesheet" />
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">EcoVesti</div>
+            <div class="nav-links">
+                <a href="https://www.linkedin.com/in/ovuncasikoglu" target="_blank">LinkedIn</a>
+                <a href="https://github.com/OvuncA" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </nav>
+    <header>
+        <div class="header-content">
+            <h1>Welcome to EcoVesti</h1>
+            <p>Check the sustainability of your favorite clothing brands and discover eco-friendly alternatives.</p>
+            <form id="sustainability-form">
+                <input type="url" id="url-input" placeholder="Enter the URL of the item" required>
+                <button type="submit">Check Sustainability</button>
+            </form>
+        </div>
+    </header>
+    <main>
+        <section id="results" class="hidden">
+            <h2>Results</h2>
+            <div id="results-content"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 EcoVesti. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

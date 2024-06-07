@@ -1,2 +1,0 @@
-- Product Name: Men's Linen Standard Fit Shirt
-- Brand Name: Everlane
