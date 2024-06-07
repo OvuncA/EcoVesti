@@ -47,7 +47,6 @@ class EcovestiV2Crew():
 		return Task(
 			config=self.tasks_config['product_info_extraction'],
 			agent=self.product_information_extractor(),
-			output_file="product-information.md",
 		)
 	
 	@task
@@ -62,7 +61,6 @@ class EcovestiV2Crew():
 		return Task(
 			config=self.tasks_config['sustainable_product_research'],
 			agent=self.sustainable_product_researcher(),
-			output_file="alternative-sustainable-products.md",
 		)
 	
 	@task
