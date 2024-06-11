@@ -11,8 +11,8 @@
         <div class="nav-container">
             <div class="logo">EcoVesti</div>
             <div class="nav-links">
-                <a href="https://www.linkedin.com/in/ovuncasikoglu" target="_blank">LinkedIn</a>
-                <a href="https://github.com/OvuncA" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/your-profile" target="_blank">LinkedIn</a>
+                <a href="https://github.com/your-profile" target="_blank">GitHub</a>
             </div>
         </div>
     </nav>
@@ -21,15 +21,19 @@
             <h1>Welcome to EcoVesti</h1>
             <p>Check the sustainability of your favorite clothing brands and discover eco-friendly alternatives.</p>
             <form id="sustainability-form">
-                <input type="url" id="url-input" placeholder="Enter the URL of the item" required>
+                <input type="url" id="url-input" placeholder="Enter the URL of the item" required><br>
                 <button type="submit">Check Sustainability</button>
             </form>
+            <div id="statusMessage" style="display:none;">
+                <p id="statusText"></p>
+                <button id="showResult" style="display:none;">Show Result</button>
+            </div>
         </div>
     </header>
     <main>
         <section id="results" class="hidden">
             <h2>Results</h2>
-            <div id="results-content"></div>
+            <div id="result"></div>
         </section>
     </main>
     <footer>
