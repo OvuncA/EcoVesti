@@ -15,17 +15,17 @@ class EcovestiV2Crew():
 	tasks_config = 'config/tasks.yaml'
 
 	@agent
-	def product_information_extractor(self) -> Agent:
+	def productInformationExtractor(self) -> Agent:
 		return Agent(
-			config=self.agents_config['product_information_extractor'],
+			config=self.agents_config['productInformationExtractor'],
 			#tool=[WebTools.open_page],
 			Verbose=True,
 		)
 	
 	@agent
-	def sustainability_analyst(self) -> Agent:
+	def sustainabilityAnalyst(self) -> Agent:
 		return Agent(
-			config=self.agents_config['sustainability_analyst'],
+			config=self.agents_config['sustainabilityAnalyst'],
 			# tool=[#WebTools.open_page,
 		 	# 	 #WebTools.search_internet,	
 			# ],
@@ -33,9 +33,9 @@ class EcovestiV2Crew():
 		)
 	
 	@agent
-	def sustainable_product_researcher(self) -> Agent:
+	def sustainableProductResearcher(self) -> Agent:
 		return Agent(
-			config=self.agents_config['sustainable_product_researcher'],
+			config=self.agents_config['sustainableProductResearcher'],
 			tool=[#WebTools.open_page,
 		 		  WebTools.search_internet,
 			],
@@ -43,32 +43,35 @@ class EcovestiV2Crew():
 		)
 	
 	@task
-	def product_info_extraction(self) -> Task:
+	def productInfoExtraction(self) -> Task:
 		return Task(
-			config=self.tasks_config['product_info_extraction'],
-			agent=self.product_information_extractor(),
+			config=self.tasks_config['productInfoExtraction'],
+			agent=self.productInformationExtractor(),
 		)
 	
 	@task
-	def sustainability_analysis(self) -> Task:
+	def sustainabilityAnalysis(self) -> Task:
 		return Task(
-			config=self.tasks_config['sustainability_analysis'],
-			agent=self.sustainability_analyst(),
+			config=self.tasks_config['sustainabilityAnalysis'],
+			agent=self.sustainabilityAnalyst(),
+			#context=[self.productInfoExtraction],
 		)
 	
 	@task
-	def sustainable_product_research(self) -> Task:
+	def sustainableProductResearch(self) -> Task:
 		return Task(
-			config=self.tasks_config['sustainable_product_research'],
-			agent=self.sustainable_product_researcher(),
+			config=self.tasks_config['sustainableProductResearch'],
+			agent=self.sustainableProductResearcher(),
+			#context=[self.product_info_extraction],
 		)
 	
 	@task
-	def final_product_report(self) -> Task:
+	def finalProductReport(self) -> Task:
 		return Task(
-			config=self.tasks_config['final_product_report'],
-			agent=self.sustainability_analyst(),
-			output_file="final-product-report.md",
+			config=self.tasks_config['finalProductReport'],
+			agent=self.sustainabilityAnalyst(),
+			#context=[self.product_info_extraction, self.sustainability_analysis, self.sustainable_product_research],
+			#output_file="final-product-report.md",
 		)
 
 	@crew

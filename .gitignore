@@ -1,2 +1,3 @@
 .env
 __pycache__/
+/static/final_product_report_latest.txt

@@ -1,4 +1,4 @@
-product_information_extractor:
+productInformationExtractor:
   role: >
     Clothing Product Information Extractor
   goal: >
@@ -9,7 +9,7 @@ product_information_extractor:
     name on clothing items from the given URL of an online retail website and present it in a clear and concise manner.
     The information you extracted, becomes the foundation for further analysis.
 
-sustainability_analyst:
+sustainabilityAnalyst:
   role: >
     Senior Clothing Product Sustainability Analyst
   goal: >
@@ -23,7 +23,7 @@ sustainability_analyst:
     You're known for your ability to present your findings in a clear and concise manner, explaining 
     the reasoning behind the assessment and offering users valuable insights into the brand's sustainability profile.
 
-sustainable_product_researcher:
+sustainableProductResearcher:
   role: >
     Sustainable Alternative Clothing Product Researcher
   goal: >

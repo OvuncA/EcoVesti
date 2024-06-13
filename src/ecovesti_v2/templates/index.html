@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoVesti</title>
-    <link href={{ url_for('static', path='/styles.css' ) }} rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
     <nav>
@@ -21,12 +21,11 @@
             <h1>Welcome to EcoVesti</h1>
             <p>Check the sustainability of your favorite clothing brands and discover eco-friendly alternatives.</p>
             <form id="sustainability-form">
-                <input type="url" id="url-input" placeholder="Enter the URL of the item" required><br>
+                <input type="url" id="url-input" placeholder="Enter the URL of the item" required><br><br>
                 <button type="submit">Check Sustainability</button>
             </form>
             <div id="statusMessage" style="display:none;">
                 <p id="statusText"></p>
-                <button id="showResult" style="display:none;">Show Result</button>
             </div>
         </div>
     </header>
@@ -39,6 +38,6 @@
     <footer>
         <p>&copy; 2024 EcoVesti. All rights reserved.</p>
     </footer>
-    <script src="script.js"></script>
+    <script src="/static/script.js"></script>
 </body>
 </html>

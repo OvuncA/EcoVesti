@@ -1,11 +1,11 @@
-product_info_extraction:
+productInfoExtraction:
   description: >
     Extracting brand name and the product name of the clothing item from the provided URL {user_URL}. 
     The extracted data should be structured and ready for further analysis.
   expected_output: >
     The Product name and the brand name.
 
-sustainability_analysis:
+sustainabilityAnalysis:
   description: >
     Based on the brand name, do a comprehensive sustainability credentials analysis of 
     this clothing brand.
@@ -13,7 +13,7 @@ sustainability_analysis:
     A fully fledge sustainability performance report with the Certification check, Brand reputation analysis, environmental impact, 
     life cycle assessment, sustainability score etc with a conclusion and references to the resources.
 
-sustainable_product_research:
+sustainableProductResearch:
   description: >
     Based on the product name and the brand name, find sustainable clothing alternatives to 
     this clothing product. Make sure to prioritize searching for alternatives with similar styles and 
@@ -23,7 +23,7 @@ sustainable_product_research:
     A manageble list of curated alternative products with product details such as Brand Name, product name, 
     sustainability details (certifications etc) and references to the online resources of the products.
 
-final_product_report:
+finalProductReport:
   description: >
     Compile a comprehensive and user-friendly report for the product that outlines all the previous findings. 
     The report should include the original product name and brand, sustainability analysis and the alternative sustainable product list.

@@ -20,9 +20,16 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-templates = Jinja2Templates(directory="templates")
-analysis_status = {}
-app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Get the directory of the current file
+current_file_path = os.path.dirname(os.path.abspath(__file__))
+
+# Use absolute paths for the static and templates directories
+templates_path = os.path.join(current_file_path, "./templates")
+static_path = os.path.join(current_file_path, "./static")
+
+templates = Jinja2Templates(directory=templates_path)
+app.mount("/static", StaticFiles(directory=static_path), name="static")
 
 class URLData(BaseModel):
     url: str
@@ -30,21 +37,6 @@ class URLData(BaseModel):
 @app.get("/")
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
-
-@app.get("/status/{url}")
-async def get_status(url: str):
-    status = analysis_status.get(url, "Not Started")
-    return {"status": status}
-
-@app.get("/result/{url}")
-async def get_result(url: str):
-    safe_url_name = "".join(x for x in url if x.isalnum())
-    filename = f"{safe_url_name}_latest.txt"  # Assuming you save it with this pattern
-    if os.path.exists(filename):
-        with open(filename, "r") as file:
-            content = file.read()
-        return {"result": content}
-    return {"result": "Analysis not complete or file not found"}
 
 @app.post("/analyze/")
 async def analyze_url(url_data: URLData, background_tasks: BackgroundTasks):
@@ -54,21 +46,18 @@ async def analyze_url(url_data: URLData, background_tasks: BackgroundTasks):
     return {"message": message}
 
 async def run_analysis(url):
-    analysis_status[url] = "In Progress"
     try:
         inputs = {'user_URL': url}
-        EcovestiV2Crew().crew().kickoff(inputs=inputs)
+        crewResult = EcovestiV2Crew().crew().kickoff(inputs=inputs)
 
-        safe_url_name = "".join(x for x in url if x.isalnum())
-        filename = f"{safe_url_name}_latest.txt"
+        safe_url_name = "final_product_report"
+        filename = os.path.join(static_path, f"{safe_url_name}_latest.txt")
 
-        result = "Sample result"  # Replace with actual result handling
+        result = crewResult
         with open(filename, "w") as file:
             file.write(result)
         
-        analysis_status[url] = "Complete"
     except Exception as e:
-        analysis_status[url] = "Failed"
         print(f"An error occurred: {e}")
 
 # Run with Uvicorn
