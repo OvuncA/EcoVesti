@@ -1,12 +1,11 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from ecovesti_v2.tools.webtools import WebTools
+from langchain_google_genai import ChatGoogleGenerativeAI
+import os
 
-# Uncomment the following line to use an example of a custom tool
-# from ecovesti_v2.tools.custom_tool import MyCustomTool
-
-# Check our tools documentations for more information on how to use them
-# from crewai_tools import SerperDevTool
+api_key = os.getenv("GOOGLE_API_KEY")
+Gllm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest", google_api_key=api_key)
 
 @CrewBase
 class EcovestiV2Crew():
@@ -20,6 +19,7 @@ class EcovestiV2Crew():
 			config=self.agents_config['productInformationExtractor'],
 			#tool=[WebTools.open_page],
 			Verbose=True,
+			llm=Gllm,
 		)
 	
 	@agent
@@ -30,6 +30,7 @@ class EcovestiV2Crew():
 		 	# 	 #WebTools.search_internet,	
 			# ],
 			Verbose=True,
+			llm=Gllm,
 		)
 	
 	@agent
@@ -40,6 +41,7 @@ class EcovestiV2Crew():
 		 		  WebTools.search_internet,
 			],
 			Verbose=True,
+			llm=Gllm,
 		)
 	
 	@task
