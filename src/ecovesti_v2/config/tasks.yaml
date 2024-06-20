@@ -15,7 +15,7 @@ sustainabilityAnalysis:
 
 sustainableProductResearch:
   description: >
-    Based on the product, find sustainable clothing alternatives to 
+    Based on the product name and brand from extracted information, find sustainable clothing alternatives to 
     this clothing product. Make sure to prioritize searching for alternatives with similar styles and 
     functionalities to the original product. Prioritize options with relevant sustainability certifications, positive user reviews regarding ethical practices, 
     or eco-friendly materials.

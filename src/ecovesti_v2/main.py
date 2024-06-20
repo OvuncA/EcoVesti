@@ -1,64 +1,70 @@
-#!/usr/bin/env python
-from fastapi import FastAPI, BackgroundTasks, HTTPException, Request
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel
-import os
+from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
 from dotenv import load_dotenv
-from ecovesti_v2.crew import EcovestiV2Crew 
+from ecovesti_v2.crew import EcovestiV2Crew
+import threading
+import uuid
 
+# Initialize Flask APP
+app = Flask(__name__)
 load_dotenv()
 
-app = FastAPI()
+# Configure CORS
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
-    allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
-)
+# In-memory storage for results
+results = {}
 
+@app.route("/", methods=['GET', 'POST'])
+def index():
+    if request.method == 'GET':
+        return render_template("index.html")
+    else:
+        # This is not used since the form is submitted via JavaScript
+        return jsonify({'error': 'Invalid route for POST request'}), 400
 
-# Get the directory of the current file
-current_file_path = os.path.dirname(os.path.abspath(__file__))
+@app.route("/analyze/", methods=['POST'])
+def analyze():
+    data = request.get_json()
+    url = data.get('url')
+    if not url:
+        return jsonify({'error': 'Missing URL'}), 400
 
-# Use absolute paths for the static and templates directories
-templates_path = os.path.join(current_file_path, "./templates")
-static_path = os.path.join(current_file_path, "./static")
-
-templates = Jinja2Templates(directory=templates_path)
-app.mount("/static", StaticFiles(directory=static_path), name="static")
-
-class URLData(BaseModel):
-    url: str
-
-@app.get("/")
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
-
-@app.post("/analyze/")
-async def analyze_url(url_data: URLData, background_tasks: BackgroundTasks):
-    url = url_data.url
     message = f"I've started the analysis for {url}"
-    background_tasks.add_task(run_analysis, url)
-    return {"message": message}
 
-async def run_analysis(url):
+    # Generate a unique ID for this request
+    request_id = str(uuid.uuid4())
+    results[request_id] = "Processing"
+
+    # Run analysis in a separate thread (using threading or multiprocessing)
+    def run_analysis_thread():
+        run_analysis(url, request_id)
+
+    analysis_thread = threading.Thread(target=run_analysis_thread)
+    analysis_thread.start()
+
+    return jsonify({'message': message, 'request_id': request_id})
+
+@app.route("/result/<request_id>", methods=['GET'])
+def get_result(request_id):
+    result = results.get(request_id)
+    if result is None:
+        return jsonify({'error': 'Invalid request ID'}), 404
+    elif result == "Processing":
+        return jsonify({'status': 'Processing'}), 202
+    else:
+        return jsonify({'result': result})
+
+def run_analysis(url, request_id):
     try:
         inputs = {'user_URL': url}
         crewResult = EcovestiV2Crew().crew().kickoff(inputs=inputs)
 
-        safe_url_name = "final_product_report"
-        filename = os.path.join(static_path, f"{safe_url_name}_latest.txt")
-
-        result = crewResult
-        with open(filename, "w") as file:
-            file.write(result)
-        
+        # Save the result to the in-memory storage
+        results[request_id] = crewResult
     except Exception as e:
-        print(f"An error occurred: {e}")
+        results[request_id] = f"An error occurred: {e}"
 
-# Run with Uvicorn
-# uvicorn main:app --reload
+# Run with Flask development server (for easier debugging)
+if __name__ == '__main__':
+    app.run(debug=True)

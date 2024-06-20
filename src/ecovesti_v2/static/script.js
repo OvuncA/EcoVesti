@@ -24,28 +24,36 @@ document.getElementById('sustainability-form').addEventListener('submit', functi
     .then(data => {
         console.log('Analysis Started:', data);
 
-        var safeUrlName = 'final_product_report';
-        var filename = safeUrlName + '_latest.txt';
+        const requestId = data.request_id;
 
-        return fetch(`/static/${filename}`);
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.text();
-        } else {
-            throw new Error('Analysis not complete or file not found.');
-        }
-    })
-    .then(data => {
-        document.getElementById('result').innerText = data;
-        document.getElementById('results').classList.remove('hidden');
-        document.getElementById('statusMessage').style.display = 'none';
-        clearInterval(loadingInterval); // Stop the loading effect
+        // Poll for result
+        const pollInterval = setInterval(() => {
+            fetch(`/result/${requestId}`)
+                .then(response => response.json())
+                .then(resultData => {
+                    if (resultData.status === 'Processing') {
+                        console.log('Still processing...');
+                    } else {
+                        clearInterval(pollInterval);
+                        document.getElementById('result').innerText = resultData.result;
+                        document.getElementById('results').classList.remove('hidden');
+                        document.getElementById('statusMessage').style.display = 'none';
+                        clearInterval(loadingInterval); // Stop the loading effect
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('statusText').innerText = 'An error occurred during the analysis.';
+                    document.getElementById('statusText').style.color = 'red';
+                    clearInterval(loadingInterval);
+                    clearInterval(pollInterval);
+                });
+        }, 2000); // Poll every 2 seconds
     })
     .catch((error) => {
         console.error('Error:', error);
         document.getElementById('statusText').innerText = 'An error occurred during the analysis.';
         document.getElementById('statusText').style.color = 'red';
-        clearInterval(loadingInterval); 
+        clearInterval(loadingInterval);
     });
 });
