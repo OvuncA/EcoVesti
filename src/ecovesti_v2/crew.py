@@ -1,6 +1,6 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from ecovesti_v2.tools.webtools import WebTools
+from tools.webtools import WebTools
 from langchain_google_genai import ChatGoogleGenerativeAI
 import os
 

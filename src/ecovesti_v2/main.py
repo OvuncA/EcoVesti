@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
-from ecovesti_v2.crew import EcovestiV2Crew
+from crew import EcovestiV2Crew
 import threading
 import uuid
 
