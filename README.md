@@ -1,57 +1,46 @@
-# EcovestiV2 Crew
+# Ecovesti
 
-Welcome to the EcovestiV2 Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+Ecovesti is a web application designed to promote sustainable fashion. By analyzing a given URL for a clothing product, Ecovesti assesses the sustainability of the brand, provides detailed information about sustainability certifications and practices, and suggests alternative products that align with eco-friendly principles. This is achieved through a multi-agent AI system leveraging the powerful and flexible framework provided by Crewai. The AI agents collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+
+![ecovesti_gif](https://github.com/OvuncA/EcoVesti/assets/6351370/ccd1661e-4c0b-427e-8bdc-a564ed6ac437)
+
+# Features
+
+**Sustainability Assessment:** Analyze the sustainability of clothing brands.
+
+**Sustainability Information:** Get detailed information about various sustainability certifications, practices and methods.
+
+**Alternative Products:** Discover eco-friendly alternatives similar to the product you searched for.
+
+# How It Works
+Ecovesti leverages multiple AI agents and tasks through the Crewai framework to deliver accurate and relevant sustainability information. Here’s a brief overview of the process:
+
+**Input URL:** The user inputs a URL for a clothing product.
+
+**Product information extraction:**  A specialized AI agent retrieves the product information (brand and product name).
+
+**Data Analysis:** Another AI agent analyzes the product and brand for sustainability metrics, communicating with the prior AI agent
+
+**Alternative Suggestions:** A separate specialized agent researches alternative products based on the information provided by the first agent.
+
+**Information Display:**  All the gathered information is compiled into one comprehensive report and displayed to the user.
+
+![ecovesti_agents_gid](https://github.com/OvuncA/EcoVesti/assets/6351370/cb8d78eb-97ee-4563-a0dc-8f41dea312ea)
+
+## Technologies Used
+
+**Python:** version 3.11
+
+**Flask**
+
+**Crewai Framework:** Utilized for creating and managing AI agents and tasks.
+
+**Gemini LLM:** Other LLM alternatives such as OpenAI can be used but as a free option, it performs the best in my opinion
 
 ## Installation
 
-Ensure you have Python >=3.10 <=3.13 installed on your system. This project uses [Poetry](https://python-poetry.org/) for dependency management and package handling, offering a seamless setup and execution experience.
+Install all the required packages using:
 
-First, if you haven't already, install Poetry:
+**1. pip install -r requirements.txt**
 
-```bash
-pip install poetry
-```
-
-Next, navigate to your project directory and install the dependencies:
-
-1. First lock the dependencies and then install them:
-```bash
-poetry lock
-```
-```bash
-poetry install
-```
-### Customizing
-
-**Add your `OPENAI_API_KEY` into the `.env` file**
-
-- Modify `src/ecovesti_v2/config/agents.yaml` to define your agents
-- Modify `src/ecovesti_v2/config/tasks.yaml` to define your tasks
-- Modify `src/ecovesti_v2/crew.py` to add your own logic, tools and specific args
-- Modify `src/ecovesti_v2/main.py` to add custom inputs for your agents and tasks
-
-## Running the Project
-
-To kickstart your crew of AI agents and begin task execution, run this from the root folder of your project:
-
-```bash
-poetry run ecovesti_v2
-```
-
-This command initializes the ecovesti-v2 Crew, assembling the agents and assigning them tasks as defined in your configuration.
-
-This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
-
-## Understanding Your Crew
-
-The ecovesti-v2 Crew is composed of multiple AI agents, each with unique roles, goals, and tools. These agents collaborate on a series of tasks, defined in `config/tasks.yaml`, leveraging their collective skills to achieve complex objectives. The `config/agents.yaml` file outlines the capabilities and configurations of each agent in your crew.
-
-## Support
-
-For support, questions, or feedback regarding the EcovestiV2 Crew or crewAI.
-- Visit our [documentation](https://docs.crewai.com)
-- Reach out to us through our [GitHub repository](https://github.com/joaomdmoura/crewai)
-- [Join our Discord](https://discord.com/invite/X4JWnZnxPb)
-- [Chat with our docs](https://chatg.pt/DWjSBZn)
-
-Let's create wonders together with the power and simplicity of crewAI.
+**2. Create your own .env file and add your GOOGLE API KEY. _Alternatively, you can use an OPENAI API KEY with minor modifications._**
